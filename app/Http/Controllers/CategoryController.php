@@ -103,14 +103,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category, string $id)
+    public function destroy(Category $category)
     {
         try {
-            // find the category by id
-            $category = Category::findOrFail($id);
-            // delete the category
             $category->delete();
-            // return a success response
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Category deleted successfully',
@@ -123,4 +120,5 @@ class CategoryController extends Controller
             ], 500);
         }
     }
+
 }
