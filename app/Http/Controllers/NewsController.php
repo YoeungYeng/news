@@ -119,13 +119,11 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(News $news, string $id)
+    public function destroy(News $news)
     {
         try {
-            // find the news article by id
-            $newsArticle = $news::findOrFail($id);
-            // delete the news article
-            $newsArticle->delete();
+            
+            $news->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'News article deleted successfully',
