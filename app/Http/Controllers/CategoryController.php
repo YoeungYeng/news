@@ -8,6 +8,8 @@ use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CategoryController extends Controller
 {
     /**
@@ -62,9 +64,17 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category, string $id)
+    public function show($id)
     {
         // show
+        $category = Category::find($id);
+        // check if category exists
+        if (!$category) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Category not found.',
+            ], 404);
+        }
         return response()->json([
             'status' => 200,
             'message' => 'City retrieved successfully.',
@@ -119,6 +129,17 @@ class CategoryController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    // get all category
+    public function getCategory(Category $category)
+    {
+        $category = $category::all();
+        return response()->json([
+            'status' => 200,
+            'message' => "all category",
+            'data' => $category
+        ], 200);
     }
 
 }

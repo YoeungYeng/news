@@ -66,11 +66,18 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(News $news, string $id)
+    public function show($id)
     {
         try {
             // find the news article by id
-            $newsArticle = $news::findOrFail($id);
+            $newsArticle = News::findOrFail($id);
+            // check if the news article exists
+            if (!$newsArticle) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'News article not found',
+                ], 404);
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'News article retrieved successfully',
